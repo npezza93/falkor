@@ -1,4 +1,5 @@
 require "falkor/version"
+require "falkor/download"
 require "falkor/gunzip"
 
 module Falkor
