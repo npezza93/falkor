@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "falkor/concerns/trackable_progress"
+require "falkor/parser"
 require "yard"
 
 module Falkor
@@ -19,9 +20,7 @@ module Falkor
       in_source_dir do
         with_yardoc_file do
           YARD::Registry.lock_for_writing do
-            parser = YARD::Parser::OrderedParser.new(OpenStruct.new, files)
-
-            parser.parse(&Proc.new)
+            report_progress(:parse_files, files.size, &Proc.new)
             YARD::Registry.save(true)
           end
         end
@@ -52,6 +51,12 @@ module Falkor
       YARD::Registry.yardoc_file = yardoc_file
       yield
       YARD::Registry.yardoc_file = nil
+    end
+
+    def parse_files
+      Parser.new(nil, files).parse do |count, description|
+        yield count, description
+      end
     end
   end
 end
