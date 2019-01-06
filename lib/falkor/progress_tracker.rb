@@ -8,12 +8,12 @@ module Falkor
       @previous = 0
     end
 
-    def progress(amount)
+    def progress(amount, description)
       self.previous, self.current = current, current + amount
 
-      return if percentage(previous) == percentage(current)
+      return if percentage(previous) == percentage(current) && !description
 
-      yield percentage(current)
+      yield percentage(current), description
     end
 
     private
