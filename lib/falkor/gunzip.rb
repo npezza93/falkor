@@ -76,7 +76,12 @@ module Falkor
     end
 
     def write_file(file, dest)
-      FileUtils.rm_rf dest if File.directory? dest
+      if File.directory? dest
+        FileUtils.rm_rf dest
+      else
+        FileUtils.mkdir_p(File.dirname(dest))
+      end
+
       File.open dest, "wb" do |f|
         f.print file.read
       end

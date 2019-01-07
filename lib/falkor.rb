@@ -8,6 +8,7 @@ require "falkor/generate_yardoc"
 require "falkor/load_yardoc"
 
 require "falkor/gems/fetch"
+require "falkor/gems/unpack"
 
 module Falkor
   class Error < StandardError; end
