@@ -8,6 +8,8 @@ require "falkor/gunzip"
 require "falkor/generate_yardoc"
 require "falkor/store"
 
+require "falkor/ruby"
+
 module Falkor
   class Error < StandardError; end
 end
