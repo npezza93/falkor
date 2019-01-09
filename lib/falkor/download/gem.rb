@@ -5,7 +5,7 @@ require "rubygems/commands/fetch_command"
 module Falkor
   class Download
     class Gem
-      def initialize(gem_name, version = nil)
+      def initialize(gem_name, version: nil)
         @gem_name = gem_name
         @version = version
       end
