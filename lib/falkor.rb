@@ -9,6 +9,7 @@ require "falkor/generate_yardoc"
 require "falkor/store"
 
 require "falkor/ruby"
+require "falkor/gem"
 
 module Falkor
   class Error < StandardError; end
