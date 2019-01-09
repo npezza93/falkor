@@ -3,7 +3,7 @@
 require "yard"
 
 module Falkor
-  class LoadYardoc
+  class Store
     def initialize(yardoc_file_path)
       @store = YARD::RegistryStore.new
       store.load(yardoc_file_path)
