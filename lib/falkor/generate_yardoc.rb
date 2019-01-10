@@ -26,7 +26,7 @@ module Falkor
         end
       end
 
-      File.join(Dir.pwd, source_dir, yardoc_file)
+      File.join(source_dir, yardoc_file)
     end
 
     private
@@ -44,7 +44,7 @@ module Falkor
     end
 
     def in_source_dir
-      Dir.chdir(File.join(Dir.pwd, source_dir)) { yield }
+      Dir.chdir(source_dir) { yield }
     end
 
     def with_yardoc_file
