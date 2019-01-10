@@ -48,6 +48,7 @@ module Falkor
     end
 
     def with_yardoc_file
+      YARD::Registry.clear
       YARD::Registry.yardoc_file = yardoc_file
       yield
       YARD::Registry.yardoc_file = nil
