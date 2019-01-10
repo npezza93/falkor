@@ -9,22 +9,31 @@ module Falkor
   class Gunzip
     include TrackableProgress
 
-    def initialize(source, destination)
+    def initialize(source, has_root_dir: false)
       @source = source
-      @destination = destination
+      @source_destination = File.join(
+        File.dirname(source), File.basename(source, ".tar.gz")
+      )
+      @extraction_destination =
+        if has_root_dir
+          File.dirname(source)
+        else
+          @source_destination
+        end
     end
 
     def gunzip
-      FileUtils.rm_rf destination_dir
-      FileUtils.mkdir_p destination_dir
+      FileUtils.rm_rf source_destination
+      FileUtils.mkdir_p extraction_destination
 
       report_progress(:write_each_tarfile, open_file(&:count), &Proc.new)
-      destination_dir
+      source_destination
     end
 
     private
 
-    attr_accessor :source, :destination, :track_progress
+    attr_accessor :source, :extraction_destination, :track_progress,
+                  :source_destination
 
     def write_each_tarfile
       open_file do |tar|
@@ -41,7 +50,7 @@ module Falkor
       File.open(source, "rb") do |file|
         return_value = nil
         Zlib::GzipReader.wrap(file) do |gz|
-          Gem::Package::TarReader.new(gz) do |tar|
+          ::Gem::Package::TarReader.new(gz) do |tar|
             return_value = yield tar
           end
         end
@@ -50,7 +59,8 @@ module Falkor
     end
 
     def write_tarfile(tarfile, current_destination)
-      current_destination ||= File.join destination, tarfile.full_name
+      current_destination ||=
+        File.join extraction_destination, tarfile.full_name
 
       if directory?(tarfile)
         write_directory(tarfile, current_destination)
@@ -90,14 +100,10 @@ module Falkor
 
     def handle_longlink_or_write(tarfile, dest)
       if tarfile.full_name == TAR_LONGLINK
-        File.join destination, tarfile.read.strip
+        File.join extraction_destination, tarfile.read.strip
       else
         write_tarfile(tarfile, dest)
       end
-    end
-
-    def destination_dir
-      File.join(destination, File.basename(source, ".tar.gz"))
     end
   end
 end
