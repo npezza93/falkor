@@ -10,6 +10,8 @@ module Falkor
       end
 
       def download
+        FileUtils.mkdir("tmp/rubies") unless File.directory?("tmp/rubies")
+
         downloader.download(&Proc.new)
       end
 
@@ -22,7 +24,7 @@ module Falkor
       end
 
       def downloader
-        @downloader ||= Download.new(link, file_name)
+        @downloader ||= Download.new(link, File.join("rubies", file_name))
       end
     end
   end
