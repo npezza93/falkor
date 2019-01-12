@@ -10,9 +10,15 @@ module Falkor
     def generate
       gzip_file_path = download(&Proc.new)
       extracted_path = gunzip(gzip_file_path, &Proc.new)
-      yardoc_file = generate_yardoc(extracted_path, &Proc.new)
 
-      Falkor::Store.new(yardoc_file)
+      yardoc_filename = File.basename(extracted_path)
+      yardoc_filepath =
+        generate_yardoc(extracted_path, "." + yardoc_filename, &Proc.new)
+
+      FileUtils.mv(yardoc_filepath, File.join("tmp", yardoc_filename))
+      FileUtils.rm(gzip_file_path)
+      FileUtils.rm_rf(extracted_path)
+      Falkor::Store.new(yardoc_filepath)
     end
 
     private
@@ -31,9 +37,9 @@ module Falkor
       end
     end
 
-    def generate_yardoc(extracted_path)
+    def generate_yardoc(extracted_path, yardoc_filename)
       Falkor::GenerateYardoc.
-        new(extracted_path).
+        new(extracted_path, yardoc_filename).
         generate do |progress, description|
           yield :generating, progress, description
         end
