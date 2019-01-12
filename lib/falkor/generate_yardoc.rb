@@ -49,9 +49,11 @@ module Falkor
 
     def with_yardoc_file
       YARD::Registry.clear
+      YARD::Logger.instance.io = IO.new(IO.sysopen("/dev/null", "w+"))
       YARD::Registry.yardoc_file = yardoc_file
       yield
       YARD::Registry.yardoc_file = nil
+      YARD::Logger.instance.io = STDOUT
     end
 
     def parse_files
