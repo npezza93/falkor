@@ -10,7 +10,7 @@ module Falkor
       end
 
       def download
-        FileUtils.mkdir("tmp/rubies") unless File.directory?("tmp/rubies")
+        FileUtils.mkdir_p("tmp/rubies") unless File.directory?("tmp/rubies")
 
         downloader.download(&Proc.new)
       end

@@ -11,7 +11,7 @@ module Falkor
       end
 
       def download
-        FileUtils.mkdir("tmp/gems") unless File.directory?("tmp/gems")
+        FileUtils.mkdir_p("tmp/gems") unless File.directory?("tmp/gems")
 
         Dir.chdir("tmp/gems") do
           ::Gem::Commands::FetchCommand.new.invoke_with_build_args(args, nil)
