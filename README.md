@@ -25,7 +25,22 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+#### Ruby Core and Stlib
+
+```ruby
+store = Falkor::Ruby.new(version).generate do |action, progress, description|
+  puts action, progress, description
+end
+```
+
+#### Remote Gem
+
+```ruby
+store = Falkor::Gem.new(name, version: (optional)).generate do |action, progress, description|
+  puts action, progress, description
+end
+```
 
 ## Development
 
