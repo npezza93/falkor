@@ -3,11 +3,11 @@
 require "rubygems/package"
 require "falkor/concerns/trackable_progress"
 
-TAR_LONGLINK = "././@LongLink"
-
 module Falkor
   class Gunzip
     include TrackableProgress
+
+    TAR_LONGLINK = "././@LongLink"
 
     def initialize(source, has_root_dir: false)
       @source = source
