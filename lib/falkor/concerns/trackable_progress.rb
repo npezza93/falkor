@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require "falkor/progress_tracker"
+require "falkor/progress"
 
 module Falkor
   module TrackableProgress
     def report_progress(method_to_run, total, *args)
-      progress_tracker = ProgressTracker.new(total)
-      send(method_to_run, *args) do |progress, description = nil|
-        progress_tracker.progress(progress, description, &Proc.new)
+      progress = Progress.new(total)
+      send(method_to_run, *args) do |amount, description = nil|
+        progress.increment!(amount, description, &Proc.new)
       end
     end
   end

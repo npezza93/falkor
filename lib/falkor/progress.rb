@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 module Falkor
-  class ProgressTracker
+  class Progress
     def initialize(total)
       @total = total
       @current = 0
       @previous = 0
     end
 
-    def progress(amount, description)
+    def increment!(amount, description)
       self.previous, self.current = current, current + amount
 
       return if percentage(previous) == percentage(current) && !description
