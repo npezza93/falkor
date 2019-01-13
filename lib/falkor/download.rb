@@ -30,7 +30,9 @@ module Falkor
       uri = URI(url)
       return_value = nil
 
-      Net::HTTP.start(uri.host, uri.port) do |http|
+      Net::HTTP.start(
+        uri.host, uri.port, use_ssl: uri.scheme == "https"
+      ) do |http|
         http.request(Net::HTTP::Get.new(uri)) do |response|
           return_value = yield response, response["content-length"].to_i
         end
