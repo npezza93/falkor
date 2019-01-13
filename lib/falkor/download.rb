@@ -12,6 +12,8 @@ module Falkor
     end
 
     def download
+      return destination if File.exist?(destination)
+
       request do |response, file_size|
         next unless success?(response)
 
