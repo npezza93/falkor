@@ -3,8 +3,6 @@
 require "falkor/version"
 
 require "falkor/download"
-require "falkor/download/ruby"
-require "falkor/download/gem"
 
 require "falkor/extract/gem"
 require "falkor/extract/tar_gz"
