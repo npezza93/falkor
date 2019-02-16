@@ -9,6 +9,8 @@ module Falkor
     include Installable
 
     VERSIONS = {
+      "2.6.1" =>
+        "https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.1.tar.gz",
       "2.6.0" =>
         "https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.0.tar.gz",
       "2.5.3" =>
