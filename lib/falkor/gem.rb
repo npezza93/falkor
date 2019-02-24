@@ -15,19 +15,19 @@ module Falkor
       return [] if query.nil? || query.empty?
 
       Gems.search(query).map do |gem|
-        new(**gem.transform_keys(&:to_sym))
+        new(**gem.symbolize_keys)
       end
     end
 
     def self.find(query)
-      new(**Gems.info(query).transform_keys(&:to_sym))
-    end
-
-    def initialize(**attrs)
-      gem_info = Gems.info(attrs[:name])
+      gem_info = Gems.info(query)
 
       raise GemNotFound if gem_info.nil? || gem_info.empty?
 
+      new(**gem_info.symbolize_keys)
+    end
+
+    def initialize(**attrs)
       self.name    = attrs[:name]
       self.info    = attrs[:info]
       self.version = ::Gem::Version.new(attrs[:version])
@@ -35,11 +35,13 @@ module Falkor
 
     def other_versions
       @other_versions ||= Gems.versions(name).map do |payload|
-        version = ::Gem::Version.new(payload["number"])
+        next if payload["number"] == version
 
-        next if version == self.version
-
-        self.class.new(name: name, info: info, version: payload["number"])
+        self.class.new(
+          name: name,
+          info: payload["summary"],
+          version: payload["number"]
+        )
       end.compact
     end
 
