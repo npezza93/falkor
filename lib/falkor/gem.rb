@@ -9,28 +9,50 @@ module Falkor
   class Gem
     include Installable
 
-    attr_accessor :name, :info, :version
+    attr_accessor :name, :info, :version, :created_at, :project_uri
 
-    def self.search(query)
-      return [] if query.nil? || query.empty?
+    class << self
+      def search(query)
+        return [] if query.nil? || query.empty?
 
-      Gems.search(query).map do |gem|
-        new(**gem.symbolize_keys)
+        Gems.search(query).map do |gem|
+          new(**gem.transform_keys(&:to_sym))
+        end
+      end
+
+      def find(query, version = nil)
+        gem_info =
+          if version.nil?
+            Gems.info(query)
+          else
+            rubygems_v2_info(query, version)
+          end
+
+        raise GemNotFound if gem_info.nil? || gem_info.empty?
+
+        new(**gem_info.transform_keys(&:to_sym))
+      end
+
+      private
+
+      def rubygems_v2_info(gem_name, version)
+        client = Gems::Client.new
+
+        response = client.get(
+          "/api/v2/rubygems/#{gem_name}/versions/#{version}.json"
+        )
+        JSON.parse(response)
+      rescue JSON::ParserError
+        {}
       end
     end
 
-    def self.find(query)
-      gem_info = Gems.info(query)
-
-      raise GemNotFound if gem_info.nil? || gem_info.empty?
-
-      new(**gem_info.symbolize_keys)
-    end
-
     def initialize(**attrs)
-      self.name    = attrs[:name]
-      self.info    = attrs[:info]
-      self.version = ::Gem::Version.new(attrs[:version])
+      self.name        = attrs[:name]
+      self.info        = attrs[:info]
+      self.created_at  = attrs[:created_at]
+      self.project_uri = attrs[:project_uri]
+      self.version     = ::Gem::Version.new(attrs[:version])
     end
 
     def other_versions
@@ -40,7 +62,8 @@ module Falkor
         self.class.new(
           name: name,
           info: payload["summary"],
-          version: payload["number"]
+          version: payload["number"],
+          created_at: payload["created_at"]
         )
       end.compact
     end
