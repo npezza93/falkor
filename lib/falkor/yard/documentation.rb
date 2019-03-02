@@ -27,7 +27,6 @@ module Falkor
           end
         end
 
-        FileUtils.rm_rf source_dir
         yardoc_file
       end
 
