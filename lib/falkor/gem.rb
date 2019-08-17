@@ -51,7 +51,7 @@ module Falkor
       self.name        = attrs[:name]
       self.info        = attrs[:info]
       self.created_at  = attrs[:created_at]
-      self.project_uri = attrs[:project_uri]
+      self.project_uri = attrs[:homepage_uri]
       self.version     = ::Gem::Version.new(attrs[:version])
     end
 
