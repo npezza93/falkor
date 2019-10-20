@@ -6,6 +6,7 @@ module Falkor
   module Extract
     class TarGzTest < Minitest::Test
       def setup
+        FileUtils.mkdir_p "tmp"
         FileUtils.cp("test/fixtures/tar.tar.gz", "tmp/tar.tar.gz")
       end
 
