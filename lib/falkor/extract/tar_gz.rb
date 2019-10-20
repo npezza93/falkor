@@ -35,8 +35,7 @@ module Falkor
 
       private
 
-      attr_accessor :file_name, :extraction_destination, :track_progress,
-                    :source_destination
+      attr_reader :file_name, :extraction_destination, :source_destination
 
       def write_each_tarfile
         open_file do |tar|

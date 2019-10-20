@@ -10,11 +10,11 @@ module Falkor
       def extract
         ::Gem::Package::FileSource.new(file_name).with_read_io do |io|
           ::Gem::Package::TarReader.new(io).each do |entry|
-            next unless entry.full_name == "data.tar.gz"
+            next if entry.full_name != "data.tar.gz"
 
-            File.open(tar_file_name, "wb") { |f| f.write entry.read }
+            write_tar_file(entry.read)
 
-            FileUtils.rm file_name
+            remove_file
             break # ignore further entries
           end
         end
@@ -24,10 +24,22 @@ module Falkor
 
       private
 
-      attr_accessor :file_name
+      attr_reader :file_name
+
+      def write_tar_file(contents)
+        File.open(tar_file_name, "wb") do |file|
+          file.write contents
+        end
+      end
 
       def tar_file_name
-        File.join(Dir.pwd, "tmp", File.basename(file_name, ".gem") + ".tar.gz")
+        File.join(
+          File.dirname(file_name), File.basename(file_name, ".gem") + ".tar.gz"
+        )
+      end
+
+      def remove_file
+        FileUtils.rm file_name
       end
     end
   end
