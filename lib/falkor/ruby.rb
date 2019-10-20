@@ -62,9 +62,7 @@ module Falkor
     end
 
     def yard_filepath
-      File.join(
-        Dir.pwd, "tmp", File.basename(file_name, ".tar.gz") + ".falkor"
-      )
+      File.join(Dir.pwd, "tmp", File.basename(file_name, ".tar.gz") + ".falkor")
     end
   end
 end
