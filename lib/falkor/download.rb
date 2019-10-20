@@ -27,18 +27,23 @@ module Falkor
     attr_reader :url, :file_name
 
     def request
-      uri = URI(url)
       return_value = nil
 
-      Net::HTTP.start(
-        uri.host, uri.port, use_ssl: uri.scheme == "https"
-      ) do |http|
+      Net::HTTP.start(uri.host, uri.port, use_ssl: https?) do |http|
         http.request(Net::HTTP::Get.new(uri)) do |response|
           return_value = yield response, response["content-length"].to_i
         end
       end
 
       return_value
+    end
+
+    def uri
+      @uri ||= URI(url)
+    end
+
+    def https?
+      uri.scheme == "https"
     end
 
     def write_chunks(response)

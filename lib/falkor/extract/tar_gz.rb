@@ -12,14 +12,11 @@ module Falkor
 
       def initialize(file_name, has_root_dir: false)
         @file_name = file_name
-        @source_destination = File.join(
-          File.dirname(file_name), File.basename(file_name, ".tar.gz")
-        )
         @extraction_destination =
           if has_root_dir
             File.dirname(file_name)
           else
-            @source_destination
+            source_destination
           end
       end
 
@@ -37,7 +34,13 @@ module Falkor
 
       private
 
-      attr_reader :file_name, :extraction_destination, :source_destination
+      attr_reader :file_name, :extraction_destination
+
+      def source_destination
+        @source_destination ||= File.join(
+          File.dirname(file_name), File.basename(file_name, ".tar.gz")
+        )
+      end
 
       def write_each_tarfile
         open_file do |tar|
