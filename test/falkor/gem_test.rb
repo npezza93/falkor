@@ -25,93 +25,102 @@ module Falkor
 
     def test_find_when_version_is_nil_and_not_found
       VCR.use_cassette("empty_find") do
-        assert_raises Gems::NotFound do
-          Falkor::Gem.find("nonexistent_gem")
-        end
+        assert_raises(Gems::NotFound) { find("nonexistent_gem") }
       end
     end
 
     def test_find_when_version_is_nil_and_found
       VCR.use_cassette("rails_find") do
-        assert_instance_of Falkor::Gem, Falkor::Gem.find("rails")
+        assert_instance_of Falkor::Gem, find("rails")
       end
     end
 
     def test_find_when_version_is_present_and_not_found
       VCR.use_cassette("empty_find_v2") do
-        assert_raises Gems::NotFound do
-          Falkor::Gem.find("nonexistent_gem", "1.0.0")
-        end
+        assert_raises(Gems::NotFound) { find("nonexistent_gem", "1.0.0") }
       end
     end
 
     def test_find_when_version_is_present_and_found
       VCR.use_cassette("rails_find_v2") do
-        assert_instance_of Falkor::Gem, Falkor::Gem.find("rails", "6.0.0")
+        assert_instance_of Falkor::Gem, find("rails", "6.0.0")
       end
     end
 
     def test_name
       VCR.use_cassette("rails_find") do
-        assert_equal "rails", Falkor::Gem.find("rails").name
+        assert_equal "rails", find("rails").name
       end
+    end
 
+    def test_name_v2
       VCR.use_cassette("rails_find_v2") do
-        assert_equal "rails", Falkor::Gem.find("rails", "6.0.0").name
+        assert_equal "rails", find("rails", "6.0.0").name
       end
     end
 
     def test_info
-      expected = "Ruby on Rails is a full-stack web framework optimized for "\
-                 "programmer happiness and sustainable productivity. It "\
-                 "encourages beautiful code by favoring convention over "\
-                 "configuration."
       VCR.use_cassette("rails_find") do
-        assert_equal expected, Falkor::Gem.find("rails").info
+        assert_equal rails_description, find("rails").info
       end
+    end
 
+    def test_info_v2
       VCR.use_cassette("rails_find_v2") do
-        assert_equal expected, Falkor::Gem.find("rails", "6.0.0").info
+        assert_equal rails_description, find("rails", "6.0.0").info
       end
     end
 
     def test_version
       VCR.use_cassette("rails_find") do
-        version = Falkor::Gem.find("rails").version
+        version = find("rails").version
         assert_instance_of ::Gem::Version, version
         assert_equal "6.0.0", version.to_s
       end
+    end
 
+    def test_version_v2
       VCR.use_cassette("rails_find_v2") do
-        version = Falkor::Gem.find("rails", "6.0.0").version
+        version = find("rails", "6.0.0").version
         assert_instance_of ::Gem::Version, version
         assert_equal "6.0.0", version.to_s
       end
     end
 
     def test_created_at
-      VCR.use_cassette("rails_find") do
-        assert_nil Falkor::Gem.find("rails").created_at
-      end
+      VCR.use_cassette("rails_find") { assert_nil find("rails").created_at }
+    end
 
+    def test_created_at_v2
       VCR.use_cassette("rails_find_v2") do
-        assert_equal(
-          Time.parse("2019-08-16T18:01:50.039Z"),
-          Falkor::Gem.find("rails", "6.0.0").created_at
-        )
+        assert_equal(Time.parse("2019-08-16T18:01:50.039Z"),
+                     find("rails", "6.0.0").created_at)
       end
     end
 
     def test_project_uri
-      url = "https://rubyonrails.org"
-
       VCR.use_cassette("rails_find") do
-        assert_equal(url, Falkor::Gem.find("rails").project_uri)
+        assert_equal("https://rubyonrails.org", find("rails").project_uri)
       end
+    end
 
+    def test_project_uri_v2
       VCR.use_cassette("rails_find_v2") do
-        assert_equal(url, Falkor::Gem.find("rails", "6.0.0").project_uri)
+        assert_equal("https://rubyonrails.org",
+                     find("rails", "6.0.0").project_uri)
       end
+    end
+
+    private
+
+    def find(name, version = nil)
+      Falkor::Gem.find(name, version)
+    end
+
+    def rails_description
+      "Ruby on Rails is a full-stack web framework optimized for programmer "\
+      "happiness and sustainable productivity. It encourages beautiful code "\
+      "by favoring convention over configuration."
     end
   end
 end
