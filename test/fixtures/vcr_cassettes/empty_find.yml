@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/nonexistent_gem.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Gems 1.2.0
+      - Ruby
+      Authorization:
+      - 67b74ade11d2f5d1f8986e4e3d2ee8a3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - ec2cc960-08c7-41ff-b679-0c0807d6b823
+      X-Runtime:
+      - '0.007183'
+      Strict-Transport-Security:
+      - max-age=120
+      Content-Length:
+      - '58'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sun, 20 Oct 2019 02:29:04 GMT
+      Via:
+      - 1.1 varnish
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      X-Served-By:
+      - cache-dca17726-DCA
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1571538545.740812,VS0,VE85
+      Vary:
+      - Accept-Encoding
+      Server:
+      - RubyGems.org
+    body:
+      encoding: ASCII-8BIT
+      string: This rubygem could not be found.
+    http_version: 
+  recorded_at: Sun, 20 Oct 2019 02:29:04 GMT
+recorded_with: VCR 5.0.0

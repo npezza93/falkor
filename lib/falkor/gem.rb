@@ -4,8 +4,6 @@ require "falkor/concerns/installable"
 require "gems"
 
 module Falkor
-  class GemNotFound < StandardError; end
-
   class Gem
     include Installable
 
@@ -28,17 +26,13 @@ module Falkor
             rubygems_v2_info(query, version)
           end
 
-        raise GemNotFound if gem_info.nil? || gem_info.empty?
-
         new(**gem_info.transform_keys(&:to_sym))
       end
 
       private
 
       def rubygems_v2_info(gem_name, version)
-        client = Gems::Client.new
-
-        response = client.get(
+        response = Gems::Client.new.get(
           "/api/v2/rubygems/#{gem_name}/versions/#{version}.json"
         )
         JSON.parse(response)
@@ -50,7 +44,7 @@ module Falkor
     def initialize(**attrs)
       self.name        = attrs[:name]
       self.info        = attrs[:info]
-      self.created_at  = attrs[:created_at]
+      self.created_at  = attrs[:created_at] && Time.parse(attrs[:created_at])
       self.project_uri = attrs[:homepage_uri]
       self.version     = ::Gem::Version.new(attrs[:version])
     end

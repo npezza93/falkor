@@ -1,0 +1,103 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rubygems.org/api/v1/gems/rails.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Gems 1.2.0
+      - Ruby
+      Authorization:
+      - 67b74ade11d2f5d1f8986e4e3d2ee8a3
+      Connection:
+      - keep-alive
+      Keep-Alive:
+      - '30'
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 3de5d9b3-1a5f-4388-84ae-b803205cfbfa
+      X-Runtime:
+      - '0.018460'
+      Strict-Transport-Security:
+      - max-age=120
+      X-Backend:
+      - F_Rails 54.186.104.15:443
+      Accept-Ranges:
+      - bytes
+      - bytes
+      Age:
+      - '0'
+      - '0'
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Sun, 20 Oct 2019 02:33:14 GMT
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+      X-Served-By:
+      - cache-bwi5031-BWI
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Timer:
+      - S1571538794.344221,VS0,VE92
+      Vary:
+      - Accept-Encoding,Fastly-SSL
+      Etag:
+      - '"d1d8d23ca08b6ff3e7535acb1f8c129f"'
+      Server:
+      - RubyGems.org
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"rails","downloads":195100793,"version":"6.0.0","version_downloads":633730,"platform":"ruby","authors":"David
+        Heinemeier Hansson","info":"Ruby on Rails is a full-stack web framework optimized
+        for programmer happiness and sustainable productivity. It encourages beautiful
+        code by favoring convention over configuration.","licenses":["MIT"],"metadata":{},"yanked":false,"sha":"dcb924cb0e7ec85c9773f9711caac1fd7c8f3791eb42d389dd6967d02545fdc2","project_uri":"https://rubygems.org/gems/rails","gem_uri":"https://rubygems.org/gems/rails-6.0.0.gem","homepage_uri":"https://rubyonrails.org","wiki_uri":"","documentation_uri":"http://api.rubyonrails.org","mailing_list_uri":"http://groups.google.com/group/rubyonrails-talk","source_code_uri":"http://github.com/rails/rails","bug_tracker_uri":"http://github.com/rails/rails/issues","changelog_uri":null,"dependencies":{"development":[],"runtime":[{"name":"actioncable","requirements":"=
+        6.0.0"},{"name":"actionmailbox","requirements":"= 6.0.0"},{"name":"actionmailer","requirements":"=
+        6.0.0"},{"name":"actionpack","requirements":"= 6.0.0"},{"name":"actiontext","requirements":"=
+        6.0.0"},{"name":"actionview","requirements":"= 6.0.0"},{"name":"activejob","requirements":"=
+        6.0.0"},{"name":"activemodel","requirements":"= 6.0.0"},{"name":"activerecord","requirements":"=
+        6.0.0"},{"name":"activestorage","requirements":"= 6.0.0"},{"name":"activesupport","requirements":"=
+        6.0.0"},{"name":"bundler","requirements":"\u003e= 1.3.0"},{"name":"railties","requirements":"=
+        6.0.0"},{"name":"sprockets-rails","requirements":"\u003e= 2.0.0"}]}}'
+    http_version: 
+  recorded_at: Sun, 20 Oct 2019 02:33:14 GMT
+recorded_with: VCR 5.0.0
