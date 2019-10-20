@@ -3,38 +3,34 @@
 require "falkor/concerns/installable"
 
 module Falkor
-  class VersionNotFound < StandardError; end
-
   class Ruby
+    class NotFound < StandardError; end
+
     include Installable
 
     RELEASES = "https://raw.githubusercontent.com/ruby/www.ruby-lang.org/"\
                "master/_data/releases.yml"
 
-    def self.versions
-      YAML.
-        load_file(Download.new(RELEASES, "ruby_releases.yml").download {}).
-        select { |release| release.dig("url", "gz") }.
-        map { |release| [release["version"], release.dig("url", "gz")] }.
-        to_h
-    end
+    class << self
+      def search(query)
+        versions.keys.map do |version|
+          new(version) if version.include? query
+        end.compact
+      end
 
-    def self.search(query)
-      return [] if query.nil? || query.empty?
+      alias :find :new
 
-      versions.keys.map do |version|
-        next unless version.include? query
-
-        new(version)
-      end.compact
-    end
-
-    def self.find(query)
-      new(query)
+      def versions
+        YAML.
+          load_file(Download.new(RELEASES, "ruby_releases.yml").download {}).
+          select { |release| release.dig("url", "gz") }.
+          map { |release| [release["version"], release.dig("url", "gz")] }.
+          to_h
+      end
     end
 
     def initialize(version)
-      raise VersionNotFound if self.class.versions[version].nil?
+      raise NotFound if self.class.versions[version].nil?
 
       @version = version
     end

@@ -13,5 +13,4 @@ require "falkor/ruby"
 require "falkor/gem"
 
 module Falkor
-  class Error < StandardError; end
 end
