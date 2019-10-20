@@ -24,7 +24,7 @@ module Falkor
 
     private
 
-    attr_accessor :url, :file_name, :track_progress
+    attr_reader :url, :file_name
 
     def request
       uri = URI(url)

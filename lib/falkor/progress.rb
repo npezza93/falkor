@@ -18,7 +18,8 @@ module Falkor
 
     private
 
-    attr_accessor :total, :current, :previous
+    attr_reader :total
+    attr_accessor :current, :previous
 
     def percentage(amount)
       (amount.to_f / total * 100).to_i

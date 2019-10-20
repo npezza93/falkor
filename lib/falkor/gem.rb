@@ -7,7 +7,7 @@ module Falkor
   class Gem
     include Installable
 
-    attr_accessor :name, :info, :version, :created_at, :project_uri
+    attr_reader :name, :info, :version, :created_at, :project_uri
 
     class << self
       def search(query)
@@ -42,11 +42,11 @@ module Falkor
     end
 
     def initialize(**attrs)
-      self.name        = attrs[:name]
-      self.info        = attrs[:info]
-      self.created_at  = attrs[:created_at] && Time.parse(attrs[:created_at])
-      self.project_uri = attrs[:homepage_uri]
-      self.version     = ::Gem::Version.new(attrs[:version])
+      @name        = attrs[:name]
+      @info        = attrs[:info]
+      @created_at  = attrs[:created_at] && Time.parse(attrs[:created_at])
+      @project_uri = attrs[:homepage_uri]
+      @version     = ::Gem::Version.new(attrs[:version])
     end
 
     def other_versions
