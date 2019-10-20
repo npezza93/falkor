@@ -18,7 +18,7 @@ module Falkor
         refute File.exist?("tmp/tar/tar_dir/folder/tar_file")
 
         extractor = Falkor::Extract::TarGz.new("tmp/tar.tar.gz")
-        assert_equal "tmp/tar", extractor.extract {}
+        assert_equal "tmp/tar", extractor.extract
 
         assert File.exist?("tmp/tar/tar_dir/folder/tar_file")
         refute File.exist?("tmp/tar.tar.gz")

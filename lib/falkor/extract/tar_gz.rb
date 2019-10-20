@@ -28,7 +28,9 @@ module Falkor
 
         FileUtils.mkdir_p extraction_destination
 
-        report_progress(:write_each_tarfile, open_file(&:count), &Proc.new)
+        block = block_given? ? Proc.new : proc {}
+
+        report_progress(:write_each_tarfile, open_file(&:count), &block)
         FileUtils.rm file_name
         source_destination
       end

@@ -18,7 +18,7 @@ module Falkor
         refute File.exist?("tmp/redi_search.tar.gz")
 
         extractor = Falkor::Extract::Gem.new("tmp/redi_search.gem")
-        assert_equal "tmp/redi_search.tar.gz", extractor.extract {}
+        assert_equal "tmp/redi_search.tar.gz", extractor.extract
 
         assert File.exist?("tmp/redi_search.tar.gz")
         refute File.exist?("tmp/redi_search.gem")
