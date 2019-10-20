@@ -8,6 +8,7 @@ AllCops:
     - node_modules/**/*
     - tmp/**/*
     - test/dummy/db/schema.rb
+    - gemfiles/**/*
   TargetRubyVersion: 2.5
 
 # Department Bundler

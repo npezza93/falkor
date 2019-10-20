@@ -10,8 +10,7 @@ def reload!
   old_verbose = $VERBOSE
   $VERBOSE = nil
 
-  files = $LOADED_FEATURES.select { |feat| feat =~ /\/falkor\// }
-  files.each { |file| load file }
+  $LOADED_FEATURES.select { |feat| feat =~ /\/falkor\// }.each(&method(:load))
 
   $VERBOSE = old_verbose
   true
