@@ -3,7 +3,12 @@
 require "test_helper"
 
 module Falkor
-  class GemTest < Minitest::Test
+  class GemTest < Minitest::Test # rubocop:disable Metrics/ClassLength
+    def teardown
+      FileUtils.rm_rf("tmp/redi_search-2.0.1")
+      FileUtils.rm_rf("tmp/redi_search-2.0.1.falkor")
+    end
+
     def test_search_class_method_when_blank_is_passed
       assert_equal [], Falkor::Gem.search(nil)
       assert_equal [], Falkor::Gem.search("")
@@ -108,6 +113,51 @@ module Falkor
       VCR.use_cassette("rails_find_v2") do
         assert_equal("https://rubyonrails.org",
                      find("rails", "6.0.0").project_uri)
+      end
+    end
+
+    def test_other_versions
+      VCR.use_cassette("rails_versions") do
+        versions = find("rails", "6.0.0").other_versions
+        assert versions.all? { |gem| assert_instance_of(Falkor::Gem, gem) }
+        assert_equal 353, versions.size
+      end
+    end
+
+    def test_root_objects
+      VCR.use_cassette("redi_search_find") do
+        assert_respond_to find("redi_search"), :root_objects
+      end
+    end
+
+    def test_method_objects
+      VCR.use_cassette("redi_search_find") do
+        assert_respond_to find("redi_search"), :method_objects
+      end
+    end
+
+    def test_module_objects
+      VCR.use_cassette("redi_search_find") do
+        assert_respond_to find("redi_search"), :module_objects
+      end
+    end
+
+    def test_constant_objects
+      VCR.use_cassette("redi_search_find") do
+        assert_respond_to find("redi_search"), :constant_objects
+      end
+    end
+
+    def test_classvariable_objects
+      VCR.use_cassette("redi_search_find") do
+        assert_respond_to find("redi_search"), :classvariable_objects
+      end
+    end
+
+    def test_class_objects
+      VCR.use_cassette("redi_search_find") do
+        redi_search = find("redi_search")
+        refute_empty redi_search.class_objects
       end
     end
 
