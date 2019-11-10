@@ -10,4 +10,4 @@ jobs:
     - name: Rubocop Linter
       uses: andrewmcodes/rubocop-linter-action@v1.0.3
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
